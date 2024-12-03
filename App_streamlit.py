@@ -47,13 +47,16 @@ if model is not None and hasattr(model, 'feature_names_in_'):
 st.write("User Input Features:")
 st.write(user_input)
 
-# Make predictions if the model is loaded
-if model is not None and hasattr(model, 'predict'):
-    prediction = model.predict(user_input)
-    prediction_proba = model.predict_proba(user_input)
+# Predict when the "Predict" button is clicked
+if st.button("Predict"):
+    if model is not None and hasattr(model, 'predict'):
+        # Make predictions
+        prediction = model.predict(user_input)
+        prediction_proba = model.predict_proba(user_input)
 
-    # Display the prediction
-    st.write("Prediction (Bank Account Ownership):", "Yes" if prediction[0] == 1 else "No")
-    st.write("Prediction Probability:", prediction_proba)
-else:
-    st.error("Prediction cannot be made because the model is not loaded correctly.")
+        # Display the prediction
+        st.write("Prediction (Bank Account Ownership):", "Yes" if prediction[0] == 1 else "No")
+        st.write("Prediction Probability:", prediction_proba[0][1])  # Display probability for the 'Yes' class
+    else:
+        st.error("Prediction cannot be made because the model is not loaded correctly.")
+
